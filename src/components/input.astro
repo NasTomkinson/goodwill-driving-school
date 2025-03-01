@@ -1,0 +1,32 @@
+---
+
+const {
+    name,
+    placeholder,
+    label,
+    required,
+    validation
+} = Astro.props
+
+---
+
+
+<input-container class="flex flex-col justify-start" data-error="false">
+    { label && <label for="firstName" class="font-semibold text-sm mb-1 uppercase"> { label } </label> }
+
+    <input type="text" placeholder={placeholder} name={name} required={required} pattern={validation} class="border border-neutral-400 rounded px-6 py-2 placeholder:text-neutral-400"/>
+    <span class="hidden bg-red-200 rounded text-red-500 border border-red-500 font-semibold text-sm px-6 py-2 mt-4"> Please match this validation </span>
+</input-container>
+
+<script> 
+    class InputContainer extends HTMLElement {
+        constructor(){
+            super();
+        }
+
+        connectedCallback() {
+
+        }
+    }
+    customElements.define('input-container', InputContainer);
+</script>

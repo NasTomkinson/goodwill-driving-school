@@ -1,0 +1,17 @@
+query Page($documentId: ID!) {
+  page(documentId: $documentId) {
+    title
+    slug
+    widgets {
+      ... on ComponentCompositesAccordions {
+        accordion {
+          copy
+          heading
+          id
+        }
+        heading
+        subheading
+      }
+    }
+  }
+}

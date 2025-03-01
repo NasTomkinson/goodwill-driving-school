@@ -1,0 +1,25 @@
+---
+
+interface Props {
+    heading: string,
+    copy: string,
+    id?: string   
+}
+
+const { heading, copy, id } = Astro.props
+
+---
+
+<details id={`accordion-${id}`}class="w-full py-6">
+    <summary class="cursor-pointer flex flex-row justify-between gap-8"> 
+        <span class="text-base md:text-lg font-semibold"> { heading } </span>
+        <button class="pointer-events-none"> 
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+        </button>
+    </summary>
+    <div class="text-sm md:text-base text-neutral-700 mt-2">
+        <p> { copy } </p>
+    </div>
+</details>  

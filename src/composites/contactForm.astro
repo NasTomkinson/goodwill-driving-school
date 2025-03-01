@@ -1,0 +1,77 @@
+---
+
+import Input from "../components/input.astro"
+
+---
+<contact-form class="flex flex-col justify-center border border-neutral-400 rounded px-4 py-8 max-w-screen-md mx-auto bg-white -mt-12"> 
+    <div>
+        <h2 class="text-3xl font-semibold"> Request a callback </h2>
+        <p class="text-lg mt-4"> Cupiditate dolore perspiciatis id vero, asperiores architecto commodi vitae sint aperiam. Dolorem sed nihil veritatis exercitationem delectus! </p>
+    </div>
+    <form class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8"> 
+        <Input 
+            placeholder="John"
+            name="firstName"
+            label="First Name"   
+            required={true}
+            validation="[A-Za-z]*"
+        />
+        <Input 
+            placeholder="Doe"
+            name="lastName"
+            label="Last Name"   
+            validation="[A-Za-z]*"
+            required={true}
+        />
+        <Input 
+            placeholder="07555 555 555"
+            name="contactNumber"
+            label="Contact Number"     
+            validation="[0-9]{11}"
+            required={true}  
+        />                
+        <Input 
+            placeholder="BB0 0BB"
+            name="postcode"
+            label="Postcode"       
+            validation="[A-Z]{1,2}[0-9]{1,2} ?[0-9][A-Z]{2}"
+            required={true}
+        />
+        <button type="submit" class="md:col-span-2"> Send Enquiry </button>
+    </form>
+    <div id="form-submitted" class="hidden flex-col">
+        <p> Thanks <span/>, we will be in touch in the next 48hours </p>
+    </div>
+</contact-form>        
+
+<script> 
+    import { useFetch } from '../utils'
+    import createEnquiry from '../graphql/mutations/createEnquiry.gql?raw'
+
+    class ContactForm extends HTMLElement {
+        constructor(){
+            super();
+        }
+
+        connectedCallback() {
+            const form = this.querySelector('form');
+            const formSubmitted = this.querySelector('#form-submitted');
+            form.addEventListener('submit', (event) => handleFormSubmit(event, form, formSubmitted));
+        }
+    }
+
+    async function handleFormSubmit(event, form, formSubmitted) {
+        event.preventDefault();
+
+        let formDataObj = {}
+        new FormData(form).forEach((value, key) => formDataObj[key] = value)
+
+        const resp = await useFetch(createEnquiry, {data: formDataObj})
+        
+        form.classList.add("hidden");
+        formSubmitted.querySelector('span').innerHTML = resp.data.createEnquiry.firstName
+        formSubmitted.classList.remove("hidden");
+    }
+
+    customElements.define('contact-form', ContactForm);
+</script>

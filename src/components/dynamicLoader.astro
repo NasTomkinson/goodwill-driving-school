@@ -1,0 +1,19 @@
+---
+
+import { useFetch } from '../utils';
+import Collection from '../graphql/queries/collection.gql?raw';
+
+import Accordion from "../composites/accordion.astro"
+
+const composites = await useFetch(Collection, {
+    documentId: "nh897i3qefsqk3td35hc0s8n"
+});
+
+---
+
+<>
+    {composites.data.page.widgets.map((widget: any) => {
+
+        if(widget?.accordion) return <Accordion {...widget}/>
+    })}
+</>

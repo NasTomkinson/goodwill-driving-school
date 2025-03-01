@@ -1,0 +1,6 @@
+mutation CreateEnquiry($data: EnquiryInput!) {
+  createEnquiry(data: $data) {
+    firstName
+    lastName
+  }
+}

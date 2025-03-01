@@ -1,0 +1,43 @@
+---
+
+import Details from "../components/details.astro"
+import Heading from "../components/heading.astro";
+
+interface Props {
+    heading: string,
+    subheading: string,
+    accordion: Array<{
+        heading: string,
+        copy: string,
+        id?: string
+    }>
+}
+
+const {
+    heading,
+    subheading,
+    accordion
+} = Astro.props;
+
+
+---
+<section> 
+    <div class="container max-w-screen-md"> 
+        <Heading 
+            heading={heading} 
+            subheading={subheading}
+        />
+    
+        { accordion.length && (
+            <div class="flex flex-col justify-start mt-6 divide-y divide-neutral-200">    
+                {accordion.map((accordion, index) => (
+                    <Details 
+                        heading={accordion.heading}
+                        copy={accordion.copy}
+                        id={`${accordion?.id ?? index}`}
+                    />                
+                ))}
+            </div> 
+        )}       
+    </div>
+</section>
